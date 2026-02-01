@@ -9,6 +9,7 @@ A Spring Boot application for managing PH Foreclosures data.
 - **Build Tool**: Maven
 - **Packaging**: JAR
 - **Database**: SQLite
+- **Testing**: JUnit, Mockito, Cucumber, httpclient5
 
 ## Dependencies
 
