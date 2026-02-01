@@ -26,7 +26,7 @@ public class HealthCheckSteps {
     private int statusCode;
     private String responseBody;
 
-    @When("the client calls \\/api\\/health")
+    @When("the client calls /api/health")
     public void the_client_calls_api_health() throws IOException {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet("http://localhost:" + port + "/api/health");
