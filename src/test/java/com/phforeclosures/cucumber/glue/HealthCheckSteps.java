@@ -40,8 +40,8 @@ public class HealthCheckSteps {
     }
 
     @Then("the client receives status code {int}")
-    public void the_client_receives_status_code(Integer int1) {
-        assertEquals(int1.intValue(), statusCode);
+    public void the_client_receives_status_code(Integer expectedStatusCode) {
+        assertEquals(expectedStatusCode.intValue(), statusCode);
     }
 
     @Then("the client receives server status is UP")
