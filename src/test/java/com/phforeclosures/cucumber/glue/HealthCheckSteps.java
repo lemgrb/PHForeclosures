@@ -26,10 +26,10 @@ public class HealthCheckSteps {
     private int statusCode;
     private String responseBody;
 
-    @When("the client calls /api/health")
-    public void the_client_calls_api_health() throws IOException {
+    @When("the client calls {string}")
+    public void the_client_calls_api_health(String path) throws IOException {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet("http://localhost:" + port + "/api/health");
+            HttpGet request = new HttpGet("http://localhost:" + port + path);
             httpClient.execute(request, response -> {
                 statusCode = response.getCode();
                 HttpEntity entity = response.getEntity();
