@@ -1,0 +1,8 @@
+# Application YAML
+spring:
+  application:
+    name: phforeclosures
+
+  datasource:
+    url: jdbc:sqlite:phforeclosures.db
+    driver-class-name: org.sqlite.JDBC
