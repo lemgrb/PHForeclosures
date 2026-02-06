@@ -12,6 +12,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -26,6 +27,12 @@ public class HealthCheckSteps {
     private int statusCode;
     private String responseBody;
 
+    @Before
+    public void setUp() {
+        // Make port available to other step definitions at the start of each scenario
+        SharedTestContext.setPort(port);
+    }
+
     @When("the client calls {string}")
     public void the_client_calls_api_health(String path) throws IOException {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -34,6 +41,11 @@ public class HealthCheckSteps {
                 statusCode = response.getCode();
                 HttpEntity entity = response.getEntity();
                 responseBody = EntityUtils.toString(entity);
+                
+                // Share status and response with other step definitions
+                SharedTestContext.setStatusCode(statusCode);
+                SharedTestContext.setResponseBody(responseBody);
+                
                 return null;
             });
         }
@@ -41,11 +53,13 @@ public class HealthCheckSteps {
 
     @Then("the client receives status code {int}")
     public void the_client_receives_status_code(Integer expectedStatusCode) {
-        assertEquals(expectedStatusCode.intValue(), statusCode);
+        int actualStatusCode = SharedTestContext.getStatusCode();
+        assertEquals(expectedStatusCode.intValue(), actualStatusCode);
     }
 
     @Then("the client receives server status is UP")
     public void the_client_receives_server_status_is_up() {
-        assertEquals("UP", responseBody);
+        String actualResponseBody = SharedTestContext.getResponseBody();
+        assertEquals("UP", actualResponseBody);
     }
 }
